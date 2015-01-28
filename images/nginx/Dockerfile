@@ -2,7 +2,7 @@ FROM tutum/nginx:latest
 
 # Install packages
 RUN apt-get update
-RUN apt-get install -y supervisor curl wget php5-fpm php5-mysql php5-mcrypt php5-gd php5-memcached php5-curl php5-xdebug
+RUN apt-get install -y supervisor curl wget php5-fpm php5-mysql php5-mcrypt php5-gd php5-memcached php5-curl php5-xdebug php5-pgsql postgresql-client php5-json php5-curl php5-cli phpunit
 
 # Install HHVM
 RUN wget -O - http://dl.hhvm.com/conf/hhvm.gpg.key | apt-key add -
@@ -26,3 +26,10 @@ VOLUME ["/var/www", "/etc/nginx/sites-enabled"]
 EXPOSE 80 9000
 
 CMD ["/usr/bin/supervisord"]
+
+# install composer
+WORKDIR /usr/share/php
+RUN curl -sS https://getcomposer.org/installer | php
+
+# install atoum
+RUN wget http://downloads.atoum.org/nightly/mageekguy.atoum.phar -O /usr/share/php/atoum.phar
